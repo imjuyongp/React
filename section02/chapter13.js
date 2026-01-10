@@ -31,10 +31,6 @@ add10(0).then((result) => {
   return add10(result);
 }).then((result) => {
   console.log(result);
-
-  return add10(result);
-}).then((result) => {
-  console.log(result);
 }).catch((error) => {
   console.log(error);
 });

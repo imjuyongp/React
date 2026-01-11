@@ -2,17 +2,28 @@ import './App.css'
 import Header from "./components/Header"
 import Main from "./components/Main"
 import Footer from "./components/Footer"
+import Button from "./components/Button"
 
 function App() {
 
+  const ButtonProps = {
+    text : "메일",
+    color : "red",
+    a : 1, 
+    b : 2,
+    c : 3,
+  }
+
   return (
     <>
-      <Header /> 
-      <Main />
-      <Footer />
-      <h1> Hi React!</h1>
+      <Button {...ButtonProps}/>
+      <Button text={"카페"}/>
+      <Button text={"블로그"}>
+        <div>자식 요소</div>
+        <Header />
+      </Button>
     </>
-  )
-}
+  );
+};
 
 export default App

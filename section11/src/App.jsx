@@ -3,7 +3,7 @@ import Header from "./components/Header"
 import Editor from './components/Editor'
 import List from './components/List'
 
-import { useState, useRef, useReducer, useCallback} from 'react'
+import { useState, useRef, useReducer, useCallback, createContext} from 'react'
 
 function reducer(state, action) {
   switch(action.type) {
@@ -18,6 +18,9 @@ function reducer(state, action) {
   }
 
 }
+
+// context 생성 함수 컴포넌트는 앱 컴포넌트 보통 밖에 생성 -> 리렌더링의 영향을 받지 않기 위해
+export const TodoContext = createContext();
 
 function App() {
   // const [todos, setTodos] = useState([]) // Todo 목록 배열
@@ -56,8 +59,12 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Editor onCreate={onCreate}/> 
-      <List todos={todos} onUpdate={onUpdate} onDelete={onDelete}/>
+      <TodoContext.Provider value={{
+        todos, onCreate, onUpdate, onDelete,
+      }}>
+        <Editor/> 
+        <List/>
+      </TodoContext.Provider>
     </div>
   )
 }

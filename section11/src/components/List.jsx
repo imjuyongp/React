@@ -1,9 +1,11 @@
+import { TodoContext } from "../App";
 import "./List.css"
 import TodoItem from "./TodoItem"
-import { useState, useMemo } from "react"
+import { useState, useMemo, useContext} from "react"
 
-const List = ({todos, onUpdate, onDelete}) => { // 부모 컴포넌트인 App.jsx에서 props로 전달받는 Todo항목 배열인 todos를 가져옴
+const List = () => { // 부모 컴포넌트인 App.jsx에서 props로 전달받는 Todo항목 배열인 todos를 가져옴
 
+  const {todos} = useContext(TodoContext);
   const [search, setSearch] = useState(""); // 검색어 저장 상태
 
   const onChangeSearch = (e) => {
@@ -22,20 +24,6 @@ const List = ({todos, onUpdate, onDelete}) => { // 부모 컴포넌트인 App.js
 
   const filteredData = getFilteredData(); // 필터링된 결과를 filteredData 변수에 저장
 
-  // TodoItem 관련 데이터
-  // const getAnalyzedData = () => {
-  //   const totalCount = todos.length;
-  //   const doneCount = todos.filter((todo)=>todo.isDone).length; // todos에서 isDone가 true인 것들의 길이 저장
-  //   const notDoneCount = totalCount - doneCount;
-
-  //   // 객체 리턴
-  //   return {
-  //     totalCount,
-  //     doneCount,
-  //     notDoneCount,
-  //   };
-  // };
-
   // 의존성 배열 : deps
   const {totalCount, doneCount, notDoneCount} = 
     useMemo(() => {
@@ -52,9 +40,6 @@ const List = ({todos, onUpdate, onDelete}) => { // 부모 컴포넌트인 App.js
       };
     }, [todos])
 
-
-  // const {totalCount, doneCount, notDoneCount} = getAnalyzedData(); // 구조분해 할당으로 각 변수의 값을 바인딩하여 불러옴
-
   return (
     <div className="List">
       <h4>🌱 Todo List</h4>
@@ -64,7 +49,7 @@ const List = ({todos, onUpdate, onDelete}) => { // 부모 컴포넌트인 App.js
       <input value={search} onChange={onChangeSearch} placeholder="검색어를 입력하세요" />
       <div className="todos_wrapper">
         {filteredData.map((todo) => {
-          return <TodoItem key={todo.id} {...todo} onUpdate={onUpdate} onDelete={onDelete} />
+          return <TodoItem key={todo.id} {...todo} />
         })}
       </div>
     </div>

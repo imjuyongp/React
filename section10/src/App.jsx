@@ -3,7 +3,7 @@ import Header from "./components/Header"
 import Editor from './components/Editor'
 import List from './components/List'
 
-import { useState, useRef, useReducer} from 'react'
+import { useState, useRef, useReducer, useCallback} from 'react'
 
 function reducer(state, action) {
   switch(action.type) {
@@ -24,7 +24,7 @@ function App() {
   const [todos, dispatch] = useReducer(reducer, []); // todos배열의 상태변화는 reducer함수에서 관리 (초기 값은 빈 배열 => 상태를 배열로 저장함)
   const idRef = useRef(0)
 
-  const onCreate = (content) => { // 새 Todo 객체 생성 후 목록 맨 앞에 추가
+  const onCreate = useCallback((content) => { // 새 Todo 객체 생성 후 목록 맨 앞에 추가
     dispatch({
       type : "CREATE",
       data : {
@@ -34,21 +34,24 @@ function App() {
         date : new Date().getTime(),
       }
     })
-  }
+  }, [])
 
-  const onUpdate = (targetId) => { // 체크박스가 클릭된 TodoItem의 id를 받아옴
+  const onUpdate = useCallback((targetId) => { // 체크박스가 클릭된 TodoItem의 id를 받아옴
     dispatch({
       type : "UPDATE",
       targetId : targetId,
     })
-  };
+  }, []);
 
-  const onDelete = (targetId) => { // 삭제된 todoItem을 제외한 새로운 배열을 반환
-    dispatch({
-      type : "DELETE",
-      targetId : targetId,
-    })
-  }
+  // useCallback에 의해서 컴포넌트가 마운트 되었을때 1번만 생성(함수도 객체타입이기 때문에 주소값이 이제 변하지 않음)
+  const onDelete = useCallback(
+    (targetId) => { // 삭제된 todoItem을 제외한 새로운 배열을 반환
+      dispatch({
+        type : "DELETE",
+        targetId : targetId,
+      })
+    }, []
+  )
 
   return (
     <div className="App">

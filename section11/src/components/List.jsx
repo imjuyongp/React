@@ -1,11 +1,11 @@
-import { TodoContext } from "../App";
+import { TodoStateContext } from "../App";
 import "./List.css"
 import TodoItem from "./TodoItem"
 import { useState, useMemo, useContext} from "react"
 
 const List = () => { // 부모 컴포넌트인 App.jsx에서 props로 전달받는 Todo항목 배열인 todos를 가져옴
 
-  const {todos} = useContext(TodoContext);
+  const todos = useContext(TodoStateContext);
   const [search, setSearch] = useState(""); // 검색어 저장 상태
 
   const onChangeSearch = (e) => {

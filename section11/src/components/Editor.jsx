@@ -1,9 +1,9 @@
 import "./Editor.css"
-import { TodoContext } from "../App"
+import { TodoDispatchContext } from "../App"
 import { useState, useRef, useContext } from "react"
 
 const Editor = () => { // 부모(App)으로 부터 onCreate함수를 props로 받음. Todo 생성 시 호출
-  const {onCreate} = useContext(TodoContext);
+  const {onCreate} = useContext(TodoDispatchContext);
   const [content, setContent] = useState("") // 입력 필드의 텍스트 값을 저장
   const contentRef = useRef() // 입력 필드에 포커스를 주기 위한 참조
 
